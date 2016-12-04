@@ -26,11 +26,10 @@ gulp.task('scripts', function() {
 
 gulp.task('concat-scripts', function() {
     return gulp.src(['app/assets/js/**/models.js',
-            'app/assets/js/**/logic.js',
-            'app/assets/js/**/app.js'
+            'app/assets/js/**/app.js',
         ])
         .pipe(concat('bundle.js'))
         .on('error', errorLog)
         .pipe(gulp.dest('app/assets/js'));
 });
-gulp.task('default', ['sass', 'watch']);
+gulp.task('default', ['sass', 'concat-scripts', 'watch']);
