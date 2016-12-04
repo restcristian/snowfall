@@ -1,0 +1,13 @@
+body {
+  background-color: #000; }
+
+.snowscene {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 500px; }
+  .snowscene .snowflake {
+    position: absolute;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 100%; }
