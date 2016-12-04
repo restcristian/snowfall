@@ -1,17 +1,96 @@
+//Namespace declaration
 var SNOWDAY = {};
-
+//SnowDay Data Models
 SNOWDAY.MODELS = {
-    Flake:function(options){
+    //Flake Class
+    Flake: function(options) {
         var self = this,
             _speed = 0,
             _position = {
-                x:0,
-                y:0
+                x: 0,
+                y: 0
             },
-            _blurriness = 0;
-        
-        self.render = function(){
-            
+            _blur = 0,
+            _size = 0,
+            _scene = options.Scene,
+            _sceneWidth = _scene.offsetWidth,
+            _dx = 5,
+            _dy = 5,
+            _flakeDOM = {};
+
+        var XOFFSET = 2;
+        //Here is where the snowflake is initialized.
+        self.init = function() {
+            var minSize = 10,
+                maxSize = 20,
+                minBlur = 0.5,
+                maxBlur = 1;
+
+            _position.x = Math.floor(Math.random() * (_sceneWidth - XOFFSET) + XOFFSET);
+            _size = Math.floor(Math.random() * (maxSize - minSize) + minSize);
+            _blur = Math.floor(Math.random() * (maxBlur - minBlur) + minBlur);
+
+            self.render();
+
         };
+        //Here is where the element is rendered
+        self.render = function() {
+            var unit = 'px';
+            var flakeDOM = document.createElement('div');
+            flakeDOM.className = 'snowflake';
+            flakeDOM.style.width = _size + unit;
+            flakeDOM.style.height = _size + unit;
+            flakeDOM.style.opacity = _blur;
+            flakeDOM.style.left = _position.x + unit;
+            flakeDOM.style.top = _position.y + unit;
+            _flakeDOM = flakeDOM;
+            _scene.appendChild(_flakeDOM);
+
+        };
+        //Animation method
+        self.animate = function() {
+            var $flake = _flakeDOM;
+
+            var tl = new TimelineLite();
+
+            tl.to($flake, 1, {
+                    x: '+=' + dx,
+                    y: '+=' + dy
+                })
+                .to($flake, 1, {
+                    x: '-=' + dx,
+                    y: '+=' + dy,
+                    repeat: -1
+                });
+
+        };
+        //Constructor.
+        (function() {
+            self.init();
+        })();
+    },
+    //SnowScene Class 
+    SnowScene: function(options) {
+        var self = this,
+            _sceneInDOM = options.SceneRef;
+        var _animationInterval = function() {};
+        var BATCHTIME = 3000;
+        var FLAKEBATCH = 20;
+
+        //Function that generates x amount of snow flakes 
+        self.letItSnow = function() {
+            setInterval(function() {
+                for (var x = 0; x < FLAKEBATCH; x++) {
+                    var flake = new SNOWDAY.MODELS.Flake({
+                        Scene: _sceneInDOM
+                    });
+                }
+            }, BATCHTIME);
+
+        };
+        //Constructor
+        (function() {
+            self.letItSnow();
+        })();
     }
 };
