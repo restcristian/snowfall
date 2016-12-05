@@ -29,7 +29,7 @@ SNOWDAY.MODELS = {
 
             _position.x = Math.floor(Math.random() * (_sceneWidth - XOFFSET) + XOFFSET);
             _size = Math.floor(Math.random() * (maxSize - minSize) + minSize);
-            _blur = Math.floor(Math.random() * (maxBlur - minBlur) + minBlur);
+            _blur = Math.random() * (maxBlur - minBlur) + minBlur;
 
             self.render();
 
@@ -63,12 +63,15 @@ SNOWDAY.MODELS = {
             var tl = new TimelineLite();
 
             tl.to($flake, 1, {
-                    x: '+=' + _dx,
-                    y: '+=' + _dy
+                    left: '+=' + _dx,
+                    top: '+=' + _dy,
+                    repeat: -1
                 })
                 .to($flake, 1, {
-                    x: '-=' + _dx,
-                    y: '+=' + _dy
+                    left: '-=' + _dx,
+                    top: '+=' + _dy,
+                    repeat: -1
+
                 });
 
         };
