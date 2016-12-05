@@ -12,11 +12,12 @@ SNOWDAY.MODELS = {
             },
             _blur = 0,
             _size = 0,
-            _scene = options.Scene,
+            _scene = options.Scene || null,
             _sceneWidth = _scene.offsetWidth,
             _dx = 5,
             _dy = 5,
             _flakeDOM = {};
+        _ctx = options.Context || null;
 
         var XOFFSET = 2;
         //Here is where the snowflake is initialized.
@@ -45,7 +46,15 @@ SNOWDAY.MODELS = {
             flakeDOM.style.top = _position.y + unit;
             _flakeDOM = flakeDOM;
             _scene.appendChild(_flakeDOM);
+            self.animate();
 
+        };
+        //Here is where the element is rendered but within a canvas
+        self.renderInCanvas = function() {
+            _ctx.beginPath();
+            _ctx.arc(_position.x, _position.y, _size, 0, 2 * Math.PI, false);
+            _ctx.fillStyle = 'rgba(255,255,255,' + blur + ')';
+            _ctx.fill();
         };
         //Animation method
         self.animate = function() {
@@ -54,13 +63,12 @@ SNOWDAY.MODELS = {
             var tl = new TimelineLite();
 
             tl.to($flake, 1, {
-                    x: '+=' + dx,
-                    y: '+=' + dy
+                    x: '+=' + _dx,
+                    y: '+=' + _dy
                 })
                 .to($flake, 1, {
-                    x: '-=' + dx,
-                    y: '+=' + dy,
-                    repeat: -1
+                    x: '-=' + _dx,
+                    y: '+=' + _dy
                 });
 
         };
@@ -72,7 +80,7 @@ SNOWDAY.MODELS = {
     //SnowScene Class 
     SnowScene: function(options) {
         var self = this,
-            _sceneInDOM = options.SceneRef;
+            _sceneInDOM = options.SceneRef || null;
         var _animationInterval = function() {};
         var BATCHTIME = 3000;
         var FLAKEBATCH = 20;
