@@ -9,8 +9,27 @@ body {
     height: 500px;
     & .snowflake {
         position: absolute;
-        display: inline-block;
         background-color: #fff;
         border-radius: 100%;
+        transform:translate3d(0,0,0);
+       // animation:zigzag 2s ease-in-out infinite alternate, falling 40s forwards
+        ;
     }
 }
+
+
+/*
+@keyframes falling{
+    100%{
+         top:110%;
+    }
+    
+}
+@keyframes zigzag{
+   0%{
+       transform:translateX(-20px);
+   }
+   100%{
+       transform: translateX(20px)
+   }
+}*/

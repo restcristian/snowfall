@@ -8,6 +8,22 @@ body {
   height: 500px; }
   .snowscene .snowflake {
     position: absolute;
-    display: inline-block;
     background-color: #fff;
-    border-radius: 100%; }
+    border-radius: 100%;
+    transform: translate3d(0, 0, 0); }
+
+/*
+@keyframes falling{
+    100%{
+         top:110%;
+    }
+    
+}
+@keyframes zigzag{
+   0%{
+       transform:translateX(-20px);
+   }
+   100%{
+       transform: translateX(20px)
+   }
+}*/
