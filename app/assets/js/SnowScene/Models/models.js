@@ -3,41 +3,37 @@ var SNOWDAY = {};
 //SnowDay Data Models
 SNOWDAY.MODELS = {
     //Flake Class
-    Flake: function (options) {
+    Flake: function(options) {
         var self = this,
             _speed = 0,
             _position = {
                 x: 0,
                 y: -20
             },
-            _blur = 0,
             _size = 0,
             _scene = options.Scene || null,
             _sceneWidth = _scene.offsetWidth,
-            _dx = 5,
-            _dy = 5,
+            _dx = 20,
+            _dy = 20,
             _flakeDOM = {},
-            _ctx = options.Context || null,
-            _flakeTL = new TimelineMax({repeat: -1, yoyo: true}),
+            _flakeTL = new TimelineMax({ repeat: -1, yoyo: true }),
             _animationDuration = options.animationDuration
 
         var XOFFSET = 2;
         //Here is where the snowflake is initialized.
-        self.init = function () {
+        self.init = function() {
             var minSize = 5,
-                maxSize = 10,
-                minBlur = 0.5,
-                maxBlur = 1;
+                maxSize = 10;
+            //minBlur = 0.5,
+            //maxBlur = 1;
 
             _position.x = Math.floor(Math.random() * (_sceneWidth - XOFFSET) + XOFFSET);
             _size = Math.floor(Math.random() * (maxSize - minSize) + minSize);
-            _blur = Math.random() * (maxBlur - minBlur) + minBlur;
-
             self.render();
 
         };
         //Here is where the element is rendered
-        self.render = function () {
+        self.render = function() {
             var unit = 'px';
             var flakeDOM = document.createElement('div');
             flakeDOM.className = 'snowflake';
@@ -55,62 +51,55 @@ SNOWDAY.MODELS = {
             });
 
             _flakeTL.fromTo($(_flakeDOM), 2, {
-                x: '-=20',
+                x: '-=' + _dx,
                 ease: Power1.easeInOut
             }, {
-                x: '+=20',
+                x: '+=' + _dx,
                 ease: Power1.easeInOut
             }, "START");
             self.animate();
 
         };
-        //Here is where the element is rendered but within a canvas
-        self.renderInCanvas = function () {
-            _ctx.beginPath();
-            _ctx.arc(_position.x, _position.y, _size, 0, 2 * Math.PI, false);
-            _ctx.fillStyle = 'rgba(255,255,255,' + blur + ')';
-            _ctx.fill();
-        };
         //Animation method
-        self.animate = function () {
+        self.animate = function() {
 
             var $flake = _flakeDOM;
 
-            setTimeout(function () {
+            setTimeout(function() {
                 $($flake).remove();
                 console.log('removed ' + this);
                 /*******Experiment(Self-deleting class)**********/
                 this = null;
                 delete this;
-                /***************** */
+                /******************/
             }, _animationDuration);
         };
         //Constructor.
-        (function () {
+        (function() {
             self.init();
         })();
     },
     //SnowScene Class
-    SnowScene: function (options) {
+    SnowScene: function(options) {
         var self = this,
             _sceneInDOM = options.SceneRef || null;
-        var _animationInterval = function () {};
-        var BATCHTIME = 750;
+        var _animationInterval = function() {};
+        var BATCHTIME = 2000;
         var FLAKEBATCH = 20;
 
         //Function that generates x amount of snow flakes
-        self.letItSnow = function () {
-            setInterval(function () {
+        self.letItSnow = function() {
+            setInterval(function() {
                 //   for (var x = 0; x < FLAKEBATCH; x++) {
                 var flake = new SNOWDAY
                     .MODELS
-                    .Flake({Scene: _sceneInDOM, animationDuration: 30000});
+                    .Flake({ Scene: _sceneInDOM, animationDuration: 30000 });
                 // }
             }, BATCHTIME);
 
         };
         //Constructor
-        (function () {
+        (function() {
             self.letItSnow();
         })();
     }
