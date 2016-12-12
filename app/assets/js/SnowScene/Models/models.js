@@ -46,7 +46,16 @@ SNOWDAY.MODELS = {
             _flakeDOM = flakeDOM;
             _scene.appendChild(_flakeDOM);
 
-            var flakeTM = TweenMax.to($(_flakeDOM), _animationDuration / 1000, {
+
+            self.animate();
+
+        };
+        //Animation method
+        self.animate = function() {
+
+            var $flake = _flakeDOM;
+
+            var flakeTM = TweenMax.to($($flake), _animationDuration / 1000, {
                 y: ($(_scene).height() + 50)
             });
 
@@ -57,19 +66,14 @@ SNOWDAY.MODELS = {
                 x: '+=' + _dx,
                 ease: Power1.easeInOut
             }, "START");
-            self.animate();
 
-        };
-        //Animation method
-        self.animate = function() {
 
-            var $flake = _flakeDOM;
 
             setTimeout(function() {
                 $($flake).remove();
                 console.log('removed ' + this);
                 /*******Experiment(Self-deleting class)**********/
-                this = null;
+                //this = null;
                 delete this;
                 /******************/
             }, _animationDuration);
